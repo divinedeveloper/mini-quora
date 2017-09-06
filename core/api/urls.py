@@ -13,10 +13,10 @@ Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from core.api.views import search_questions, dashboard, tenants_dashboard
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^mini-quora/api/v1/', include('core.api.urls')),
+    url(r'^questions/', search_questions, name='search_questions'),
+    url(r'^dashboard/', dashboard, name='dashboard'),
+    url(r'^tenants-dashboard/', tenants_dashboard, name='tenants_dashboard'),
 ]
