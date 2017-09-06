@@ -42,6 +42,8 @@ INSTALLED_APPS = (
 
     'core',
     'core.api',
+
+    'autofixture',
 )
 
 MIDDLEWARE_CLASSES = (

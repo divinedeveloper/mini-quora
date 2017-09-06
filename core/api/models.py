@@ -8,7 +8,7 @@ class User(models.Model):
 
 class Question(models.Model):
 	title = models.CharField(blank = False, max_length = 100)
-	private = models.BooleanField(blank=True, default = False)
+	private = models.BooleanField(blank=True)
 	user_id = models.ForeignKey(User)
 
 class Answer(models.Model):
@@ -19,7 +19,7 @@ class Answer(models.Model):
 class Tenant(models.Model):
 	name = models.CharField(blank = False, max_length = 20)
 	api_key = models.UUIDField(default = uuid.uuid4, editable = False)
-	api_requests_count = models.IntegerField(blank = False)
+	api_requests_count = models.PositiveSmallIntegerField(blank = False)
 
 
 
