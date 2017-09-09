@@ -5,7 +5,7 @@ from core.api.custom_exceptions import CustomApiException
 from rest_framework import status
 from django.db.models import Q
 import json
-
+from django.utils import timezone
 from django.db.models import Lookup
 from django.db.models.fields import Field
 
@@ -40,10 +40,12 @@ class Services():
 		try:
 			tenant = Tenant.objects.get(api_key = api_key)
 			tenant.api_requests_count += 1
+			tenant.request_date_time = timezone.now()
+			tenant.daily_api_requests_count += 1
 			tenant.save()
-
+			return tenant
 		except Tenant.DoesNotExist as e:
-				raise CustomApiException("Please provide valid API key", status.HTTP_400_BAD_REQUEST)
+			raise CustomApiException("Please provide valid API key", status.HTTP_400_BAD_REQUEST)
 
 
 	def service_dashboard(self):

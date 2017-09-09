@@ -55,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+
 )
 
 ROOT_URLCONF = 'core.urls'
@@ -121,6 +122,15 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'core.api.RequestRateLimitThrottle.RequestRateLimitThrottle'
+    ),
+
     'EXCEPTION_HANDLER': 'core.api.custom_exceptions.custom_exception_handler',
 }
 ########## END REST FRAMEWORK CONFIGURATION
+
+REQUESTS_PER_DAY = 100
+WAIT_TIME_IN_SECONDS = 10
+

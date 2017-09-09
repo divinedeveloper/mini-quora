@@ -65,7 +65,7 @@ class TestUnitViews:
 		This method will tests search questions in views
 		assert status is 200 and questions are returned
 		"""
-		params = {'title': 'Quod labore', 'offset': '0', 'limit' : '10'}
+		params = {'title': 'Sapiente', 'offset': '0', 'limit' : '10'}
 		request = self.request_factory.get(self.search_questions_api_url, params)
 		mocker.patch.object(Services, 'service_search_questions')
 		mocked_serializer = mocker.patch('core.api.serializers.QuestionSerializer')

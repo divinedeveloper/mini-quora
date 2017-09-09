@@ -1,4 +1,5 @@
 from rest_framework.views import exception_handler
+from rest_framework.exceptions import Throttled
 from rest_framework.exceptions import APIException
 
 def custom_exception_handler(exc, context):
@@ -7,6 +8,17 @@ def custom_exception_handler(exc, context):
     the `status_code` to the response and renames the `detail` key to `error`.
     """
     response = exception_handler(exc, context)
+
+    if isinstance(exc, Throttled):
+        custom_response_data = { # prepare custom response data
+            'status_code': response.status_code,
+            'detail': 'Request limit exceeded',
+            'availableIn': '%d seconds'%exc.wait
+        }
+
+        response.data = custom_response_data
+
+        return response
 
     # Now add the HTTP status code to the response.
     if response is not None:

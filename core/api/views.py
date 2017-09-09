@@ -6,12 +6,16 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from rest_framework import status
 from core.api.custom_exceptions import CustomApiException
-from core.api.services import Services 
+from core.api.services import Services
+from rest_framework.decorators import api_view, throttle_classes
+from core.api.RequestRateLimitThrottle import RequestRateLimitThrottle
 from core.api.serializers import UserSerializer, QuestionSerializer, AnswerSerializer, TenantSerializer 
 
 # Create your views here.
 
 @csrf_exempt
+@api_view(['GET'])
+@throttle_classes([RequestRateLimitThrottle])
 def search_questions(request):
 	"""
 	search questions based on parameters.
@@ -19,14 +23,14 @@ def search_questions(request):
 	"""
 
 	try: 
-		# tenant_api_key = request.META.get('HTTP_API_KEY')
-
 		service = Services()
 
-		# if tenant_api_key :
-		# 	service.check_valid_api_key(tenant_api_key)
-		# else:
-		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
+		tenant_api_key = request.META.get('HTTP_API_KEY')
+
+		if tenant_api_key :
+			tenant = service.check_valid_api_key(tenant_api_key)
+		else:
+			raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
 
 		title = request.GET.get('title', None)
 		offset = request.GET.get('offset', 0)
@@ -54,15 +58,7 @@ def dashboard(request):
 	"""
 
 	try: 
-		# tenant_api_key = request.META.get('HTTP_API_KEY')
-
 		service = Services()
-
-		# if tenant_api_key :
-		# 	service.check_valid_api_key(tenant_api_key)
-		# else:
-		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
-
 
 		user_count, question_count, answer_count = service.service_dashboard()
 
@@ -84,14 +80,7 @@ def tenants_dashboard(request):
 	"""
 
 	try: 
-		# tenant_api_key = request.META.get('HTTP_API_KEY')
-
 		service = Services()
-
-		# if tenant_api_key :
-		# 	service.check_valid_api_key(tenant_api_key)
-		# else:
-		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
 
 		offset = request.GET.get('offset', 0)
 		limit = request.GET.get('limit', 10)

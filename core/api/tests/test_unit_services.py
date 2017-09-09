@@ -36,10 +36,10 @@ class TestUnitServices:
 
 	def test_unit_search_question_with_title(self, db, django_db_setup, mocker):
 
-		questions_list = Question.objects.filter(Q(private = False) & Q(title__icontains = 'Quod labore'))[self.offset : self.limit]
-		count = Question.objects.filter(Q(private = False) & Q(title__icontains = 'Quod labore')).count()
+		questions_list = Question.objects.filter(Q(private = False) & Q(title__icontains = 'Sapiente'))[self.offset : self.limit]
+		count = Question.objects.filter(Q(private = False) & Q(title__icontains = 'Sapiente')).count()
 
-		result_questions_list, result_count = self.service_instance.service_search_questions('Quod labore', self.offset, self.limit)
+		result_questions_list, result_count = self.service_instance.service_search_questions('Sapiente', self.offset, self.limit)
 
 		assert count == result_count
 
@@ -56,7 +56,7 @@ class TestUnitServices:
 
 	def test_unit_check_valid_api_key_succes_case(self, db, django_db_setup, mocker):
 
-		tenant = Tenant.objects.get(api_key = "18ca9a9b-50f3-47e5-bb77-cee5575060d0")
+		tenant = Tenant.objects.get(api_key = "6e762d97-2d46-48cc-99b6-58cc0942d514")
 		old_api_request_count = tenant.api_requests_count
 
 		self.service_instance.check_valid_api_key(tenant.api_key)

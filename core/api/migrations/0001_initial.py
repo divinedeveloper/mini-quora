@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=100)),
-                ('private', models.BooleanField(default=False)),
+                ('private', models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
@@ -32,7 +32,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=20)),
                 ('api_key', models.UUIDField(default=uuid.uuid4, editable=False)),
-                ('api_requests_count', models.IntegerField()),
+                ('api_requests_count', models.PositiveSmallIntegerField()),
+                ('request_date_time', models.DateTimeField()),
+                ('daily_api_requests_count', models.PositiveSmallIntegerField()),
             ],
         ),
         migrations.CreateModel(
