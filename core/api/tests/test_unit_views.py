@@ -37,7 +37,7 @@ class TestUnitViews:
 		"""
 
 		params = {'title': '', 'offset': '0', 'limit' : '10'}
-		request = self.request_factory.get(self.search_questions_api_url, params)
+		request = self.request_factory.get(self.search_questions_api_url, params, HTTP_API_KEY = "6e762d97-2d46-48cc-99b6-58cc0942d514")
 		mocker.patch.object(Services, 'service_search_questions')
 		mocked_serializer = mocker.patch('core.api.serializers.QuestionSerializer')
 
@@ -66,7 +66,7 @@ class TestUnitViews:
 		assert status is 200 and questions are returned
 		"""
 		params = {'title': 'Sapiente', 'offset': '0', 'limit' : '10'}
-		request = self.request_factory.get(self.search_questions_api_url, params)
+		request = self.request_factory.get(self.search_questions_api_url, params, HTTP_API_KEY = "6e762d97-2d46-48cc-99b6-58cc0942d514")
 		mocker.patch.object(Services, 'service_search_questions')
 		mocked_serializer = mocker.patch('core.api.serializers.QuestionSerializer')
 
@@ -89,13 +89,13 @@ class TestUnitViews:
 		assert json_response['questions'] != None
 		assert json_response['questions'] == question_serializer.data
 
-	def test_unit_questions_not_found(self, mocker):
+	def test_unit_questions_not_found(self, db, django_db_setup, mocker):
 		"""
 		This method will tests search questions in views
 		assert status is 404 and questions not found message is returned
 		"""
 		params = {'title': 'myquestion', 'offset': '0', 'limit' : '10'}
-		request = self.request_factory.get(self.search_questions_api_url, params)
+		request = self.request_factory.get(self.search_questions_api_url, params, HTTP_API_KEY = "6e762d97-2d46-48cc-99b6-58cc0942d514")
 
 		mock_service_search_questions = mocker.patch.object(Services, 'service_search_questions')
 		mock_service_search_questions.side_effect = CustomApiException("Questions not found based on criteria", status.HTTP_404_NOT_FOUND)
