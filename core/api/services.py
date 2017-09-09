@@ -14,7 +14,7 @@ class Services():
 		return
 
 
-	def search_questions(self, title, offset, limit):
+	def service_search_questions(self, title, offset, limit):
 		#depending on the parameters fire query and get results
 		#based on pagination
 
@@ -46,7 +46,7 @@ class Services():
 				raise CustomApiException("Please provide valid API key", status.HTTP_400_BAD_REQUEST)
 
 
-	def dashboard(self):
+	def service_dashboard(self):
 		user_count = 0
 		question_count = 0
 		answer_count = 0
@@ -57,7 +57,7 @@ class Services():
 
 		return user_count, question_count, answer_count
 
-	def tenants_dashboard(self, offset, limit):
+	def service_tenants_dashboard(self, offset, limit):
 		tenants = []
 		tenants_count = 0
 

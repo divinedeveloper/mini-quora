@@ -19,20 +19,20 @@ def search_questions(request):
 	"""
 
 	try: 
-		tenant_api_key = request.META.get('HTTP_API_KEY')
+		# tenant_api_key = request.META.get('HTTP_API_KEY')
 
 		service = Services()
 
-		if tenant_api_key :
-			service.check_valid_api_key(tenant_api_key)
-		else:
-			raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
+		# if tenant_api_key :
+		# 	service.check_valid_api_key(tenant_api_key)
+		# else:
+		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
 
 		title = request.GET.get('title', None)
 		offset = request.GET.get('offset', 0)
 		limit = request.GET.get('limit', 10)
 
-		questions, count = service.search_questions(title, offset, limit)
+		questions, count = service.service_search_questions(title, offset, limit)
 
 		question_serializer = QuestionSerializer(questions, many=True)
 
@@ -54,17 +54,17 @@ def dashboard(request):
 	"""
 
 	try: 
-		tenant_api_key = request.META.get('HTTP_API_KEY')
+		# tenant_api_key = request.META.get('HTTP_API_KEY')
 
 		service = Services()
 
-		if tenant_api_key :
-			service.check_valid_api_key(tenant_api_key)
-		else:
-			raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
+		# if tenant_api_key :
+		# 	service.check_valid_api_key(tenant_api_key)
+		# else:
+		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
 
 
-		user_count, question_count, answer_count = service.dashboard()
+		user_count, question_count, answer_count = service.service_dashboard()
 
 		HttpResponse.status_code = status.HTTP_200_OK
 		return JsonResponse({'user_count': user_count,'question_count': question_count, 'answer_count': answer_count})
@@ -84,19 +84,19 @@ def tenants_dashboard(request):
 	"""
 
 	try: 
-		tenant_api_key = request.META.get('HTTP_API_KEY')
+		# tenant_api_key = request.META.get('HTTP_API_KEY')
 
 		service = Services()
 
-		if tenant_api_key :
-			service.check_valid_api_key(tenant_api_key)
-		else:
-			raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
+		# if tenant_api_key :
+		# 	service.check_valid_api_key(tenant_api_key)
+		# else:
+		# 	raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)
 
 		offset = request.GET.get('offset', 0)
 		limit = request.GET.get('limit', 10)
 		
-		tenants, tenants_count = service.tenants_dashboard(offset, limit)
+		tenants, tenants_count = service.service_tenants_dashboard(offset, limit)
 
 		tenants_serializer = TenantSerializer(tenants, many=True)
 
