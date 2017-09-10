@@ -22,12 +22,13 @@ def search_questions(request):
 	return Nested Json of Questions with answers and users
 	"""
 
-	try: 
+	try:
 		service = Services()
 
 		tenant_api_key = request.META.get('HTTP_API_KEY')
 
 		if tenant_api_key :
+			service.validate_uuid4(tenant_api_key)
 			tenant = service.check_valid_api_key(tenant_api_key)
 		else:
 			raise CustomApiException("Please provide API key", status.HTTP_400_BAD_REQUEST)

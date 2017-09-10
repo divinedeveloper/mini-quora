@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.http import HttpResponse
 from rest_framework import status
+from uuid import UUID
 
 class RequestRateLimitThrottle(throttling.BaseThrottle):
 
@@ -13,10 +14,16 @@ class RequestRateLimitThrottle(throttling.BaseThrottle):
 		return settings.WAIT_TIME_IN_SECONDS
 	
 	def allow_request(self, request, view):
+		try:
+			tenant_api_key = request.META.get('HTTP_API_KEY')
+			val = UUID(tenant_api_key, version=4)
+		except:
+			HttpResponse.status_code = status.HTTP_400_BAD_REQUEST
+			return JsonResponse({'status_code': status.HTTP_400_BAD_REQUEST, 'message': "Tenant API key is not valid"})
 
 		try:
 		
-			tenant_api_key = request.META.get('HTTP_API_KEY')
+			# tenant_api_key = request.META.get('HTTP_API_KEY')
 			tenant = Tenant.objects.get(api_key = tenant_api_key)
 
 			if tenant.request_date_time is None or datetime.datetime.today().date() != tenant.request_date_time.date():

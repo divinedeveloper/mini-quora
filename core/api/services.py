@@ -6,12 +6,21 @@ from rest_framework import status
 from django.db.models import Q
 import json
 from django.utils import timezone
-from django.db.models import Lookup
-from django.db.models.fields import Field
+from uuid import UUID
 
 class Services():
 	def __init__(self):
 		return
+
+
+	def validate_uuid4(self, api_key):
+		try:
+			val = UUID(api_key, version=4)
+		except:
+			raise CustomApiException("Tenant API key is not valid UUID", status.HTTP_400_BAD_REQUEST)
+
+		return val.hex == api_key.replace('-', '')
+
 
 
 	def service_search_questions(self, title, offset, limit):
@@ -21,7 +30,7 @@ class Services():
 		questions_list = []
 		count = 0
 
-		if title is None:
+		if not title:
 			questions_list = Question.objects.filter(private = False)[offset:limit]
 			count = Question.objects.filter(private = False).count()
 
