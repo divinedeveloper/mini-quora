@@ -47,15 +47,16 @@
   <div ng-show="responeTenantData" >
 
 <br><br>
-        <span class="badge"> <h5> Tenants {{responeTenantData.count}} : </h5></span>
-
+        <span class="badge"> <h5> Tenants {{responeTenantData.count}} : </h5></span><br>
+        <span class="error text-danger">Please copy any Tenant API key to search Questions</span>
         <br><br>
     <table class="table table-striped table-bordered table-hover" ng-show="responeTenantData.tenants">
             <tr>
               <th><span>No.</span></th>
               <th><span>Tenant Name</span></th>
               <th><span>Tenant API key</span></th>
-               <th><span>API Request Count</span></th>
+              <th><span>Total API Request Count</span></th>
+              <th><span>Daily API Request Count</span></th>
             </tr>
 
             <tr ng-repeat="tenant in responeTenantData.tenants">
@@ -63,6 +64,7 @@
               <td><span>{{tenant.name}}</span></td>
               <td><span>{{tenant.api_key}}</span></td>
               <td><span>{{tenant.api_requests_count}}</span></td>
+              <td><span>{{tenant.daily_api_requests_count}}</span></td>
             </tr>
           </table>
 
